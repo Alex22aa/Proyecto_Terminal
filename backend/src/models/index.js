@@ -6,10 +6,12 @@ const sequelize = require('../config/database');
 const Usuario = require('./Usuario');
 const Curso = require('./Curso');
 const Inscripcion = require('./Inscripcion');
+const Material = require('./Material');
 
 module.exports = {
   sequelize,
   Usuario,
   Curso,
   Inscripcion,
+  Material,
 };

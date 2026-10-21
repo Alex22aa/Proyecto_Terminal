@@ -1,7 +1,5 @@
 // MODEL: Usuario
-// Representa a estudiantes, docentes y administradores del sistema (RF-01 a RF-06).
-// Este es un modelo de ejemplo para mostrar el patron; cuando definamos el
-// diagrama entidad-relacion completo (Capitulo IV) se ajustaran los campos.
+// Representa a estudiantes, docentes y administradores del sistema.
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');

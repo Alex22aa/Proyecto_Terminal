@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { iniciarSesion, registrarUsuario, crearCurso, obtenerCursos } from './api';
+import { iniciarSesion, registrarUsuario, crearCurso as crearCursoAPI, obtenerCursos } from './api';
 
-// Cuenta fija de prueba (docente demo). Si no existe todavia en la base de
-// datos, el panel la crea automaticamente al primer intento de conexion.
 const DOCENTE_DEMO = {
   nombreCompleto: 'Docente Demo',
   correoInstitucional: 'docente.demo@uam.mx',
@@ -22,10 +20,6 @@ function App() {
     setCursos(lista);
   }
 
-  // OJO: esto NO "conecta" el backend a la base de datos -- esa conexion ya la
-  // hizo el backend por su cuenta, solo, al arrancar con "npm run dev"
-  // (revisa server.js). Esto es el login normal de un docente: el frontend le
-  // manda sus credenciales al backend, igual que haria cualquier usuario real.
   async function iniciarSesionDemo() {
     setCargando(true);
     setMensaje('Iniciando sesion como Docente Demo...');
@@ -34,7 +28,6 @@ function App() {
       try {
         sesion = await iniciarSesion(DOCENTE_DEMO.correoInstitucional, DOCENTE_DEMO.contrasena);
       } catch {
-        // La cuenta demo todavia no existe en la base de datos: la registramos.
         setMensaje('La cuenta demo no existia todavia, registrandola...');
         await registrarUsuario(DOCENTE_DEMO);
         sesion = await iniciarSesion(DOCENTE_DEMO.correoInstitucional, DOCENTE_DEMO.contrasena);
@@ -58,7 +51,7 @@ function App() {
     setCargando(true);
     setMensaje('Creando un curso de prueba en PostgreSQL...');
     try {
-      const nuevoCurso = await crearCurso(token, {
+      const nuevoCurso = await crearCursoAPI(token, {
         nombre: `Curso de prueba ${new Date().toLocaleTimeString('es-MX')}`,
         grupo: 'Grupo Demo',
         trimestre: '2026-Otono',

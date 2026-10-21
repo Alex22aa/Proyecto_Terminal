@@ -1,5 +1,10 @@
 // CONTROLLER: Inscripcion
 // Logica de negocio para asociar estudiantes a cursos (RF-11).
+//
+// Politica de permisos:
+// - Crear: solo el docente, a su propio nombre (dueno del curso).
+// - Consultar inscripciones de un curso: el docente dueno, o el administrador.
+// - Dar de baja (eliminar): el docente dueno del curso, o el administrador.
 
 const { Inscripcion, Curso } = require('../models');
 
@@ -28,10 +33,14 @@ async function crearInscripcion(req, res) {
 
 async function listarInscripcionesDelCurso(req, res) {
   try {
-    const docenteId = req.usuario.id;
     const { cursoId } = req.params;
 
-    const curso = await Curso.findOne({ where: { id: cursoId, docenteId } });
+    // El administrador puede consultar las inscripciones de cualquier curso;
+    // el docente solo las del suyo.
+    const where = req.usuario.rol === 'administrador'
+      ? { id: cursoId }
+      : { id: cursoId, docenteId: req.usuario.id };
+    const curso = await Curso.findOne({ where });
     if (!curso) {
       return res.status(404).json({ error: 'Curso no encontrado o no pertenece a este docente.' });
     }
@@ -60,4 +69,30 @@ async function listarMisCursos(req, res) {
   }
 }
 
-module.exports = { crearInscripcion, listarInscripcionesDelCurso, listarMisCursos };
+async function cancelarInscripcion(req, res) {
+  try {
+    const { id } = req.params;
+
+    const inscripcion = await Inscripcion.findOne({
+      where: { id },
+      include: [{ association: 'curso' }],
+    });
+    if (!inscripcion) {
+      return res.status(404).json({ error: 'Inscripcion no encontrada.' });
+    }
+
+    // El administrador puede dar de baja cualquier inscripcion; el docente
+    // solo las de sus propios cursos.
+    const esDuenoDelCurso = inscripcion.curso.docenteId === req.usuario.id;
+    if (req.usuario.rol !== 'administrador' && !esDuenoDelCurso) {
+      return res.status(404).json({ error: 'Inscripcion no encontrada.' });
+    }
+
+    await inscripcion.update({ activa: false });
+    return res.json(inscripcion);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+module.exports = { crearInscripcion, listarInscripcionesDelCurso, listarMisCursos, cancelarInscripcion };
