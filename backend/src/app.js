@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const cursoRoutes = require('./routes/cursoRoutes');
 const inscripcionRoutes = require('./routes/inscripcionRoutes');
 const materialRoutes = require('./routes/materialRoutes');
+const tareaRoutes = require('./routes/tareaRoutes');
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cursos', cursoRoutes);
 app.use('/api/inscripciones', inscripcionRoutes);
 app.use('/api/materiales', materialRoutes);
+app.use('/api/tareas', tareaRoutes);
 
 module.exports = app;
