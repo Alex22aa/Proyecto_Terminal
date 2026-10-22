@@ -8,6 +8,7 @@ const inscripcionRoutes = require('./routes/inscripcionRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const tareaRoutes = require('./routes/tareaRoutes');
 const rubricaRoutes = require('./routes/rubricaRoutes');
+const criterioRubricaRoutes = require('./routes/criterioRubricaRoutes');
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use('/api/inscripciones', inscripcionRoutes);
 app.use('/api/materiales', materialRoutes);
 app.use('/api/tareas', tareaRoutes);
 app.use('/api/rubricas', rubricaRoutes);
+app.use('/api/criterios-rubrica', criterioRubricaRoutes);
 
 module.exports = app;
