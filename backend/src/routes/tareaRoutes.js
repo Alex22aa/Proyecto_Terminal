@@ -11,8 +11,7 @@ const router = Router();
 
 router.use(requiereAutenticacion);
 
-// La verificacion de quien puede CONSULTAR (docente dueno, estudiante inscrito
-// o administrador) se hace dentro del controller, porque depende del curso.
+// La verificacion de quien puede CONSULTAR (docente dueno, estudiante inscrito o administrador) se hace dentro del controller, porque depende del curso.
 router.get('/curso/:cursoId', listarTareasDelCurso);
 
 router.post('/', requiereRol('docente'), crearTarea);

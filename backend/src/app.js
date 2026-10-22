@@ -1,6 +1,4 @@
-// Configuracion de la aplicacion Express: aqui se registran middlewares
-// globales y se conectan las rutas (que a su vez llaman a los controllers).
-
+// Configuracion de Express: middlewares y rutas.
 const express = require('express');
 const cors = require('cors');
 
@@ -9,6 +7,7 @@ const cursoRoutes = require('./routes/cursoRoutes');
 const inscripcionRoutes = require('./routes/inscripcionRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const tareaRoutes = require('./routes/tareaRoutes');
+const rubricaRoutes = require('./routes/rubricaRoutes');
 
 const app = express();
 
@@ -24,5 +23,6 @@ app.use('/api/cursos', cursoRoutes);
 app.use('/api/inscripciones', inscripcionRoutes);
 app.use('/api/materiales', materialRoutes);
 app.use('/api/tareas', tareaRoutes);
+app.use('/api/rubricas', rubricaRoutes);
 
 module.exports = app;

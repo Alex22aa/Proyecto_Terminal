@@ -1,6 +1,6 @@
 // MODEL: Tarea
 // Actividades o trabajos que el docente asigna dentro de un curso y que los
-// estudiantes deben entregar (RF-09).
+// estudiantes deben entregar 
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
