@@ -7,6 +7,7 @@ const Material = require('./Material');
 const Tarea = require('./Tarea');
 const Rubrica = require('./Rubrica');
 const CriterioRubrica = require('./CriterioRubrica');
+const Entrega = require('./Entrega');
 
 module.exports = {
   sequelize,
@@ -17,4 +18,5 @@ module.exports = {
   Tarea,
   Rubrica,
   CriterioRubrica,
+  Entrega,
 };

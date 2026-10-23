@@ -9,6 +9,7 @@ const materialRoutes = require('./routes/materialRoutes');
 const tareaRoutes = require('./routes/tareaRoutes');
 const rubricaRoutes = require('./routes/rubricaRoutes');
 const criterioRubricaRoutes = require('./routes/criterioRubricaRoutes');
+const entregaRoutes = require('./routes/entregaRoutes');
 
 const app = express();
 
@@ -26,5 +27,6 @@ app.use('/api/materiales', materialRoutes);
 app.use('/api/tareas', tareaRoutes);
 app.use('/api/rubricas', rubricaRoutes);
 app.use('/api/criterios-rubrica', criterioRubricaRoutes);
+app.use('/api/entregas', entregaRoutes);
 
 module.exports = app;
