@@ -8,6 +8,7 @@ const Tarea = require('./Tarea');
 const Rubrica = require('./Rubrica');
 const CriterioRubrica = require('./CriterioRubrica');
 const Entrega = require('./Entrega');
+const Notificacion = require('./Notificacion');
 
 module.exports = {
   sequelize,
@@ -19,4 +20,5 @@ module.exports = {
   Rubrica,
   CriterioRubrica,
   Entrega,
+  Notificacion,
 };

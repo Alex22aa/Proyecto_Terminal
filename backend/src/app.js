@@ -10,6 +10,7 @@ const tareaRoutes = require('./routes/tareaRoutes');
 const rubricaRoutes = require('./routes/rubricaRoutes');
 const criterioRubricaRoutes = require('./routes/criterioRubricaRoutes');
 const entregaRoutes = require('./routes/entregaRoutes');
+const notificacionRoutes = require('./routes/notificacionRoutes');
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use('/api/tareas', tareaRoutes);
 app.use('/api/rubricas', rubricaRoutes);
 app.use('/api/criterios-rubrica', criterioRubricaRoutes);
 app.use('/api/entregas', entregaRoutes);
+app.use('/api/notificaciones', notificacionRoutes);
 
 module.exports = app;
