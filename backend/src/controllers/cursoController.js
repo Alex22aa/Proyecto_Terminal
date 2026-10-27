@@ -7,7 +7,21 @@
 // - Editar/Archivar: el docente dueno del curso, o el administrador (sin
 //   necesidad de ser dueno).
 
-const { Curso } = require('../models');
+const { Curso, Tarea, Inscripcion } = require('../models');
+
+// Agrega, a cada curso, cuantas tareas activas y estudiantes inscritos tiene.
+// Esto es lo que necesita la pantalla de Lista de cursos para mostrar esos numeros.
+async function agregarConteos(cursos) {
+  return Promise.all(
+    cursos.map(async (curso) => {
+      const [tareasActivas, estudiantesInscritos] = await Promise.all([
+        Tarea.count({ where: { cursoId: curso.id, activa: true } }),
+        Inscripcion.count({ where: { cursoId: curso.id, activa: true } }),
+      ]);
+      return { ...curso.toJSON(), tareasActivas, estudiantesInscritos };
+    })
+  );
+}
 
 async function crearCurso(req, res) {
   try {
@@ -29,12 +43,12 @@ async function listarCursos(req, res) {
       const cursos = await Curso.findAll({
         include: [{ association: 'docente', attributes: ['id', 'nombreCompleto', 'correoInstitucional'] }],
       });
-      return res.json(cursos);
+      return res.json(await agregarConteos(cursos));
     }
 
     const docenteId = req.usuario.id;
     const cursos = await Curso.findAll({ where: { docenteId } });
-    return res.json(cursos);
+    return res.json(await agregarConteos(cursos));
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

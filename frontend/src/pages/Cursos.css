@@ -1,0 +1,110 @@
+/* Estilos para las pantallas de cursos (lista, detalle y formulario). */
+
+.cursos-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cursos-subtitulo {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 2px 0 16px;
+}
+
+.cursos-buscador {
+  width: 100%;
+  max-width: 320px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.cursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.cursos-tarjeta {
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+}
+
+.cursos-tarjeta h3 {
+  margin: 0 0 8px;
+  color: #9a3412;
+  font-size: 15px;
+}
+
+.cursos-tarjeta p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: #374151;
+}
+
+.cursos-detalle p {
+  font-size: 14px;
+  color: #374151;
+  margin: 6px 0;
+}
+
+.cursos-formulario {
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cursos-formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.cursos-formulario input,
+.cursos-formulario textarea {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.cursos-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.cursos-boton-principal {
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: 1px solid #ea580c;
+  background: #ea580c;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cursos-boton-secundario {
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: 1px solid #ea580c;
+  background: #fff;
+  color: #9a3412;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cursos-error {
+  color: #dc2626;
+  font-size: 13px;
+}

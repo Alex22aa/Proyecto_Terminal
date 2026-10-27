@@ -1,0 +1,92 @@
+/* Estilos compartidos para las pantallas de login, registro y recuperacion. */
+
+.auth-contenedor {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, sans-serif;
+  background: #fff7ed;
+}
+
+.auth-tarjeta {
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 28px;
+  border-top: 4px solid #ea580c;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-tarjeta h1 {
+  font-size: 17px;
+  margin: 0;
+  color: #9a3412;
+  text-align: center;
+}
+
+.auth-subtitulo {
+  font-size: 14px;
+  margin: 4px 0 0;
+  color: #1f2937;
+  text-align: center;
+}
+
+.auth-tarjeta label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.auth-tarjeta input,
+.auth-tarjeta select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.auth-boton-principal {
+  margin-top: 4px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ea580c;
+  background: #ea580c;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.auth-boton-principal:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.auth-boton-secundario {
+  padding: 9px;
+  border-radius: 6px;
+  border: 1px solid #ea580c;
+  background: #fff;
+  color: #9a3412;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.auth-texto {
+  font-size: 13px;
+  color: #4b5563;
+  text-align: center;
+}
+
+.auth-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin: 0;
+  text-align: center;
+}

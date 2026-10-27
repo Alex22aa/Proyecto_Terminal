@@ -53,3 +53,30 @@ export async function crearCurso(token, datos) {
   }
   return respuesta.json();
 }
+
+export async function editarCurso(token, id, datos) {
+  const respuesta = await fetch(`${API_URL}/cursos/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(datos),
+  });
+  if (!respuesta.ok) {
+    const error = await respuesta.json().catch(() => ({}));
+    throw new Error(error.error || 'No se pudo editar el curso');
+  }
+  return respuesta.json();
+}
+
+export async function archivarCurso(token, id) {
+  const respuesta = await fetch(`${API_URL}/cursos/${id}/archivar`, {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!respuesta.ok) {
+    throw new Error('No se pudo archivar el curso');
+  }
+  return respuesta.json();
+}

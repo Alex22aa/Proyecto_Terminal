@@ -1,0 +1,92 @@
+/* Estilos del layout compartido: barra superior + menu lateral (componentes 300/301/302). */
+
+.panel-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  background: #f9fafb;
+}
+
+.barra-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #fff7ed;
+  border-bottom: 2px solid #ea580c;
+}
+
+.barra-superior-marca {
+  font-weight: 600;
+  color: #9a3412;
+  font-size: 14px;
+}
+
+.barra-superior-usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.barra-superior-usuario button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ea580c;
+  background: #ea580c;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.panel-cuerpo {
+  display: flex;
+  flex: 1;
+}
+
+.menu-lateral {
+  width: 180px;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+}
+
+.menu-opcion {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #374151;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+}
+
+.menu-opcion:hover {
+  background: #fff7ed;
+}
+
+.menu-opcion.activa {
+  color: #ea580c;
+  border-left-color: #ea580c;
+  background: #fff7ed;
+  font-weight: 600;
+}
+
+.panel-contenido {
+  flex: 1;
+  padding: 24px;
+}
+
+/* El h1/h2 del tema base se pone casi blanco en modo oscuro del sistema;
+   aqui se fija un color oscuro para que el titulo de cada pantalla siempre se vea. */
+.panel-contenido h1 {
+  color: #9a3412;
+  font-size: 24px;
+  margin: 0 0 4px;
+}
+
+.panel-contenido h2 {
+  color: #9a3412;
+}
