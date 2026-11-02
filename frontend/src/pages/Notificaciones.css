@@ -1,0 +1,97 @@
+/* Estilos para la pantalla de notificaciones (docente y alumno). */
+
+.notificaciones-subtitulo {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 2px 0 20px;
+}
+
+.notificaciones-encabezado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9a3412;
+  border-bottom: 1px solid #fed7aa;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.notificaciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 520px;
+}
+
+.notificacion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #fed7aa;
+  background: #fff;
+  cursor: pointer;
+}
+
+.notificacion-item.no-leida {
+  background: #fff7ed;
+  border-color: #ea580c;
+}
+
+.notificacion-punto {
+  font-size: 16px;
+  color: #ea580c;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.notificacion-item.leida .notificacion-punto {
+  color: #9ca3af;
+}
+
+.notificacion-cuerpo {
+  flex: 1;
+}
+
+.notificacion-texto {
+  font-size: 14px;
+  color: #1f2937;
+  margin: 0;
+}
+
+.notificacion-item.no-leida .notificacion-texto {
+  font-weight: 600;
+}
+
+.notificacion-item.leida .notificacion-texto {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.notificacion-tiempo {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 4px 0 0;
+}
+
+.notificacion-eliminar {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+}
+
+.notificacion-eliminar:hover {
+  color: #dc2626;
+}
+
+.notificaciones-vacio {
+  color: #6b7280;
+  font-size: 14px;
+}

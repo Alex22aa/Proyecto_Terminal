@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
-// Componente reutilizable 301: menu lateral del docente.
+// Componente reutilizable 301: menú lateral del docente.
 const OPCIONES = [
   { texto: 'Inicio', ruta: '/panel-docente' },
   { texto: 'Cursos', ruta: '/cursos' },
   { texto: 'Dashboard', ruta: '/dashboard-docente' },
-  { texto: 'Evaluacion asistida', ruta: '/evaluacion-asistida' },
-  { texto: 'Diagnosticos IA', ruta: '/diagnosticos-ia' },
+  { texto: 'Evaluación asistida', ruta: '/evaluacion-asistida' },
+  { texto: 'Diagnósticos IA', ruta: '/diagnosticos-ia' },
   { texto: 'Notificaciones', ruta: '/notificaciones-docente' },
 ];
 

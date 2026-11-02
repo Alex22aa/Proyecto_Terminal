@@ -3,8 +3,8 @@ import MenuDocente from './MenuDocente';
 import MenuEstudiante from './MenuEstudiante';
 import './Panel.css';
 
-// Estructura compartida por toda pantalla con sesion iniciada: usa el menu
-// lateral segun el rol (componentes 300/301) y la barra superior (302).
+// Estructura compartida por toda pantalla con sesión iniciada: usa el menú
+// lateral según el rol (componentes 300/301) y la barra superior (302).
 function PanelLayout({ rol, children }) {
   return (
     <div className="panel-layout">

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { obtenerSesion, cerrarSesion } from '../utils/sesion';
 
-// Componente reutilizable 302: barra superior con el usuario activo y cerrar sesion.
+// Componente reutilizable 302: barra superior con el usuario activo y cerrar sesión.
 function BarraSuperior() {
   const navigate = useNavigate();
   const sesion = obtenerSesion();
@@ -20,7 +20,7 @@ function BarraSuperior() {
         <span>
           {rolTexto}: {sesion?.nombreCompleto}
         </span>
-        <button onClick={salir}>Cerrar sesion</button>
+        <button onClick={salir}>Cerrar sesión</button>
       </div>
     </header>
   );

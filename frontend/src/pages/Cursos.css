@@ -108,3 +108,41 @@
   color: #dc2626;
   font-size: 13px;
 }
+
+.entregas-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.entregas-tabla th,
+.entregas-tabla td {
+  border: 1px solid #fed7aa;
+  padding: 8px 10px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.entregas-tabla th {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.rubrica-criterios {
+  margin-top: 24px;
+}
+
+.criterio-tarjeta {
+  margin-bottom: 12px;
+}
+
+.tareas-curso-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  font-size: 12px;
+}

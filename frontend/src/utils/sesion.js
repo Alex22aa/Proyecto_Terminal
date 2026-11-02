@@ -1,4 +1,4 @@
-// Guarda y lee la sesion del usuario (token, nombre y rol) en el navegador.
+// Guarda y lee la sesión del usuario (token, nombre y rol) en el navegador.
 
 const CLAVE_SESION = 'sesionUsuario';
 

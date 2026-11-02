@@ -70,7 +70,7 @@ function FormularioCurso() {
   return (
     <PanelLayout rol="docente">
       <h1>Formulario de curso</h1>
-      <p className="cursos-subtitulo">Registro o edicion de informacion del curso</p>
+      <p className="cursos-subtitulo">Registro o edición de información del curso</p>
 
       <form className="cursos-formulario" onSubmit={manejarEnvio}>
         <label>
@@ -86,7 +86,7 @@ function FormularioCurso() {
           <input value={trimestre} onChange={(e) => setTrimestre(e.target.value)} />
         </label>
         <label>
-          Descripcion:
+          Descripción:
           <textarea value={descripcion} onChange={(e) => setDescripcion(e.target.value)} rows={3} />
         </label>
         {esEdicion && (

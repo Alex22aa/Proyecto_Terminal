@@ -44,7 +44,7 @@ function DetalleCurso() {
   return (
     <PanelLayout rol="docente">
       <h1>Detalle de curso</h1>
-      <p className="cursos-subtitulo">Informacion general del curso seleccionado</p>
+      <p className="cursos-subtitulo">Información general del curso seleccionado</p>
 
       <div className="cursos-detalle">
         <p>
@@ -66,7 +66,7 @@ function DetalleCurso() {
           <strong>Estado:</strong> {curso.estado === 'activo' ? 'Activo' : 'Archivado'}
         </p>
         <p>
-          <strong>Descripcion:</strong> {curso.descripcion || 'Sin descripcion.'}
+          <strong>Descripción:</strong> {curso.descripcion || 'Sin descripción.'}
         </p>
       </div>
 

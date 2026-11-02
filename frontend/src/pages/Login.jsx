@@ -4,7 +4,7 @@ import { iniciarSesion } from '../api';
 import { guardarSesion } from '../utils/sesion';
 import './Auth.css';
 
-// Pantalla IU-01: inicio de sesion.
+// Pantalla IU-01: inicio de sesión.
 function Login() {
   const navigate = useNavigate();
   const [correoInstitucional, setCorreoInstitucional] = useState('');
@@ -21,7 +21,7 @@ function Login() {
       guardarSesion(sesion);
       navigate(sesion.rol === 'docente' ? '/panel-docente' : '/panel-estudiante');
     } catch {
-      setError('Correo o contrasena incorrectos.');
+      setError('Correo o contraseña incorrectos.');
     } finally {
       setCargando(false);
     }
@@ -42,7 +42,7 @@ function Login() {
           />
         </label>
         <label>
-          Contrasena:
+          Contraseña:
           <input
             type="password"
             value={contrasena}
@@ -52,7 +52,7 @@ function Login() {
         </label>
         {error && <p className="auth-error">{error}</p>}
         <button type="submit" className="auth-boton-principal" disabled={cargando}>
-          {cargando ? 'Entrando...' : 'Iniciar sesion'}
+          {cargando ? 'Entrando...' : 'Iniciar sesión'}
         </button>
         <button type="button" className="auth-boton-secundario" onClick={() => navigate('/registro')}>
           Registrar usuario
@@ -62,7 +62,7 @@ function Login() {
           className="auth-boton-secundario"
           onClick={() => navigate('/recuperar-contrasena')}
         >
-          ¿Olvidaste tu contrasena?
+          ¿Olvidaste tu contraseña?
         </button>
       </form>
     </div>

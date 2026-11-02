@@ -70,7 +70,7 @@ function ListaCursos() {
             </button>
           </div>
         ))}
-        {!cargando && cursosFiltrados.length === 0 && <p>Todavia no tienes cursos registrados.</p>}
+        {!cargando && cursosFiltrados.length === 0 && <p>Todavía no tienes cursos registrados.</p>}
       </div>
     </PanelLayout>
   );

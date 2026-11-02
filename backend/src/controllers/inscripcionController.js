@@ -59,9 +59,16 @@ async function listarMisCursos(req, res) {
   try {
     const estudianteId = req.usuario.id;
 
+    // Se incluye el docente del curso (solo nombre) porque las pantallas del
+    // estudiante (IU-22/IU-24) necesitan mostrar quien lo imparte.
     const inscripciones = await Inscripcion.findAll({
       where: { estudianteId, activa: true },
-      include: [{ association: 'curso' }],
+      include: [
+        {
+          association: 'curso',
+          include: [{ association: 'docente', attributes: ['id', 'nombreCompleto'] }],
+        },
+      ],
     });
     return res.json(inscripciones);
   } catch (error) {

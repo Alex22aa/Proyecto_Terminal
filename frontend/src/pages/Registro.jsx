@@ -18,7 +18,7 @@ function Registro() {
     evento.preventDefault();
     setError('');
     if (contrasena !== confirmarContrasena) {
-      setError('Las contrasenas no coinciden.');
+      setError('Las contraseñas no coinciden.');
       return;
     }
     setCargando(true);
@@ -52,7 +52,7 @@ function Registro() {
           />
         </label>
         <label>
-          Contrasena:
+          Contraseña:
           <input
             type="password"
             value={contrasena}
@@ -61,7 +61,7 @@ function Registro() {
           />
         </label>
         <label>
-          Confirmar contrasena:
+          Confirmar contraseña:
           <input
             type="password"
             value={confirmarContrasena}

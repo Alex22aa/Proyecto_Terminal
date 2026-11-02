@@ -9,8 +9,8 @@
 
 const { Curso, Tarea, Inscripcion } = require('../models');
 
-// Agrega, a cada curso, cuantas tareas activas y estudiantes inscritos tiene.
-// Esto es lo que necesita la pantalla de Lista de cursos para mostrar esos numeros.
+// Agrega, a cada curso, cuántas tareas activas y estudiantes inscritos tiene.
+// Esto es lo que necesita la pantalla de Lista de cursos para mostrar esos números.
 async function agregarConteos(cursos) {
   return Promise.all(
     cursos.map(async (curso) => {

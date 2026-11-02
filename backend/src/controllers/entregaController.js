@@ -6,8 +6,12 @@
 // - Calificar: el docente dueno del curso, o el administrador.
 // - Consultar: el docente dueno, el administrador, o el estudiante (solo su
 //   propia entrega).
+//
+// Tambien dispara notificaciones (IU-29/IU-33): al docente cuando llega una
+// entrega nueva, al estudiante cuando se califica la suya. Si la notificacion
+// falla no se cae la peticion principal, solo se registra el error.
 
-const { Entrega, Tarea, Inscripcion } = require('../models');
+const { Entrega, Tarea, Inscripcion, Notificacion } = require('../models');
 
 // Busca la tarea con su curso, para saber si el estudiante esta inscrito.
 async function obtenerTareaConCurso(tareaId) {
@@ -45,6 +49,17 @@ async function crearEntrega(req, res) {
       archivoUrl,
       estado: 'entregada',
     });
+
+    try {
+      await Notificacion.create({
+        usuarioId: tarea.curso.docenteId,
+        mensaje: `Nueva entrega recibida: ${tarea.titulo}`,
+        tipo: 'entrega',
+      });
+    } catch (errorNotificacion) {
+      console.error('No se pudo crear la notificacion de entrega:', errorNotificacion.message);
+    }
+
     return res.status(201).json(entrega);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -99,6 +114,17 @@ async function calificarEntrega(req, res) {
       fechaCalificacion: new Date(),
       estado: 'calificada',
     });
+
+    try {
+      await Notificacion.create({
+        usuarioId: entrega.estudianteId,
+        mensaje: `Tu entrega de "${entrega.tarea.titulo}" fue calificada: ${puntajeObtenido} pts`,
+        tipo: 'calificación',
+      });
+    } catch (errorNotificacion) {
+      console.error('No se pudo crear la notificacion de calificacion:', errorNotificacion.message);
+    }
+
     return res.json(entrega);
   } catch (error) {
     return res.status(500).json({ error: error.message });

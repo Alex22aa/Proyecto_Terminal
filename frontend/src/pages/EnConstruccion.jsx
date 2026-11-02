@@ -1,9 +1,9 @@
-// Pantalla generica para secciones del menu que todavia no se han construido.
+// Pantalla genérica para secciones del menú que todavía no se han construido.
 function EnConstruccion({ titulo }) {
   return (
     <div>
       <h1>{titulo}</h1>
-      <p>Esta seccion se construira en un siguiente paso.</p>
+      <p>Esta sección se construirá en un siguiente paso.</p>
     </div>
   );
 }

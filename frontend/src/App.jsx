@@ -7,12 +7,22 @@ import PanelEstudiante from './pages/PanelEstudiante';
 import ListaCursos from './pages/ListaCursos';
 import DetalleCurso from './pages/DetalleCurso';
 import FormularioCurso from './pages/FormularioCurso';
+import ListaTareas from './pages/ListaTareas';
+import DetalleTarea from './pages/DetalleTarea';
+import FormularioTarea from './pages/FormularioTarea';
+import FormularioRubrica from './pages/FormularioRubrica';
+import ListaEntregas from './pages/ListaEntregas';
+import DetalleEntrega from './pages/DetalleEntrega';
+import NotificacionesDocente from './pages/NotificacionesDocente';
+import MisCursos from './pages/MisCursos';
+import DetalleCursoEstudiante from './pages/DetalleCursoEstudiante';
+import DetalleTareaEstudiante from './pages/DetalleTareaEstudiante';
 import EnConstruccion from './pages/EnConstruccion';
 import PanelLayout from './components/PanelLayout';
 import { obtenerSesion } from './utils/sesion';
 
-// Bloquea el paso a una pantalla si no hay sesion iniciada, y si se pide un
-// rol especifico, manda al usuario a su propio panel cuando no coincide.
+// Bloquea el paso a una pantalla si no hay sesión iniciada, y si se pide un
+// rol específico, manda al usuario a su propio panel cuando no coincide.
 function RutaProtegida({ children, rolRequerido }) {
   const sesion = obtenerSesion();
   if (!sesion) return <Navigate to="/login" replace />;
@@ -71,11 +81,67 @@ function App() {
         }
       />
       <Route
-        path="/cursos/:id/tareas"
+        path="/cursos/:cursoId/tareas"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <ListaTareas />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/cursos/:cursoId/tareas/nueva"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <FormularioTarea />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/cursos/:cursoId/tareas/:tareaId"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <DetalleTarea />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/cursos/:cursoId/tareas/:tareaId/editar"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <FormularioTarea />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/cursos/:cursoId/tareas/:tareaId/rubrica"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <FormularioRubrica />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/cursos/:cursoId/tareas/:tareaId/entregas"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <ListaEntregas />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/cursos/:cursoId/tareas/:tareaId/entregas/:entregaId"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <DetalleEntrega />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/cursos/:cursoId/tareas/:tareaId/entregas/:entregaId/evaluacion-ia"
         element={
           <RutaProtegida rolRequerido="docente">
             <PanelLayout rol="docente">
-              <EnConstruccion titulo="Lista de tareas" />
+              <EnConstruccion titulo="Resultado de IA" />
             </PanelLayout>
           </RutaProtegida>
         }
@@ -95,7 +161,7 @@ function App() {
         element={
           <RutaProtegida rolRequerido="docente">
             <PanelLayout rol="docente">
-              <EnConstruccion titulo="Evaluacion asistida" />
+              <EnConstruccion titulo="Evaluación asistida" />
             </PanelLayout>
           </RutaProtegida>
         }
@@ -105,7 +171,7 @@ function App() {
         element={
           <RutaProtegida rolRequerido="docente">
             <PanelLayout rol="docente">
-              <EnConstruccion titulo="Diagnosticos IA" />
+              <EnConstruccion titulo="Diagnósticos IA" />
             </PanelLayout>
           </RutaProtegida>
         }
@@ -114,9 +180,7 @@ function App() {
         path="/notificaciones-docente"
         element={
           <RutaProtegida rolRequerido="docente">
-            <PanelLayout rol="docente">
-              <EnConstruccion titulo="Notificaciones" />
-            </PanelLayout>
+            <NotificacionesDocente />
           </RutaProtegida>
         }
       />
@@ -133,8 +197,32 @@ function App() {
         path="/mis-cursos"
         element={
           <RutaProtegida rolRequerido="estudiante">
+            <MisCursos />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/mis-cursos/:cursoId"
+        element={
+          <RutaProtegida rolRequerido="estudiante">
+            <DetalleCursoEstudiante />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/mis-cursos/:cursoId/tareas/:tareaId"
+        element={
+          <RutaProtegida rolRequerido="estudiante">
+            <DetalleTareaEstudiante />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/mis-cursos/:cursoId/tareas/:tareaId/entregar"
+        element={
+          <RutaProtegida rolRequerido="estudiante">
             <PanelLayout rol="estudiante">
-              <EnConstruccion titulo="Mis cursos" />
+              <EnConstruccion titulo="Entrega de tarea" />
             </PanelLayout>
           </RutaProtegida>
         }

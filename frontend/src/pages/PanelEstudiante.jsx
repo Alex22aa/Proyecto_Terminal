@@ -1,7 +1,7 @@
 import PanelLayout from '../components/PanelLayout';
 import { obtenerSesion } from '../utils/sesion';
 
-// Pantalla IU-03 (version inicial, ya dentro del layout compartido con menu y barra superior).
+// Pantalla IU-03 (versión inicial, ya dentro del layout compartido con menú y barra superior).
 function PanelEstudiante() {
   const sesion = obtenerSesion();
   return (
