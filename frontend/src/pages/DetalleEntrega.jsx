@@ -69,13 +69,16 @@ function DetalleEntrega() {
           <strong>Archivo entregado:</strong> {entrega.archivoUrl || 'Sin archivo (entrega de solo texto).'}
         </p>
         <p>
+          <strong>Comentario del estudiante:</strong> {entrega.comentarioEstudiante || 'Sin comentario del estudiante.'}
+        </p>
+        <p>
           <strong>Calificación actual:</strong> {entrega.puntajeObtenido ?? 'Pendiente'}
         </p>
         <p>
           <strong>Rúbrica:</strong> {tieneRubrica ? 'Definida' : 'No definida'}
         </p>
         <p>
-          <strong>Resumen de la entrega:</strong> {entrega.comentario || 'Sin comentarios todavía.'}
+          <strong>Retroalimentación del docente:</strong> {entrega.comentario || 'Sin comentarios todavía.'}
         </p>
       </div>
 

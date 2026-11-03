@@ -17,6 +17,7 @@ import NotificacionesDocente from './pages/NotificacionesDocente';
 import MisCursos from './pages/MisCursos';
 import DetalleCursoEstudiante from './pages/DetalleCursoEstudiante';
 import DetalleTareaEstudiante from './pages/DetalleTareaEstudiante';
+import EntregaTarea from './pages/EntregaTarea';
 import EnConstruccion from './pages/EnConstruccion';
 import PanelLayout from './components/PanelLayout';
 import { obtenerSesion } from './utils/sesion';
@@ -221,9 +222,7 @@ function App() {
         path="/mis-cursos/:cursoId/tareas/:tareaId/entregar"
         element={
           <RutaProtegida rolRequerido="estudiante">
-            <PanelLayout rol="estudiante">
-              <EnConstruccion titulo="Entrega de tarea" />
-            </PanelLayout>
+            <EntregaTarea />
           </RutaProtegida>
         }
       />

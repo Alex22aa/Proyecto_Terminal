@@ -39,7 +39,7 @@ function DetalleTareaEstudiante() {
   }
 
   function nombreEstadoEntrega(estado) {
-    if (estado === 'pendiente') return 'Entregada, pendiente de calificación';
+    if (estado === 'entregada') return 'Entregada, pendiente de calificación';
     if (estado === 'calificada') return 'Calificada';
     return estado;
   }
@@ -83,6 +83,10 @@ function DetalleTareaEstudiante() {
           <>
             <p><strong>Fecha en que entregué:</strong> {new Date(entrega.fechaEntrega).toLocaleDateString('es-MX')}</p>
             <p><strong>Estado:</strong> {nombreEstadoEntrega(entrega.estado)}</p>
+            <p><strong>Archivo entregado:</strong> {entrega.archivoUrl || 'Sin archivo.'}</p>
+            {entrega.comentarioEstudiante && (
+              <p><strong>Mi comentario:</strong> {entrega.comentarioEstudiante}</p>
+            )}
             {entrega.estado === 'calificada' && (
               <>
                 <p><strong>Calificación obtenida:</strong> {entrega.puntajeObtenido} / {tarea.puntajeMaximo}</p>

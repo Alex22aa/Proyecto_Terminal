@@ -300,3 +300,35 @@ export async function obtenerMiEntrega(token, tareaId) {
   }
   return respuesta.json();
 }
+
+export async function crearEntrega(token, datos) {
+  const respuesta = await fetch(`${API_URL}/entregas`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(datos),
+  });
+  if (!respuesta.ok) {
+    const error = await respuesta.json().catch(() => ({}));
+    throw new Error(error.error || 'No se pudo entregar la tarea');
+  }
+  return respuesta.json();
+}
+
+export async function actualizarEntrega(token, id, datos) {
+  const respuesta = await fetch(`${API_URL}/entregas/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(datos),
+  });
+  if (!respuesta.ok) {
+    const error = await respuesta.json().catch(() => ({}));
+    throw new Error(error.error || 'No se pudo actualizar tu entrega');
+  }
+  return respuesta.json();
+}

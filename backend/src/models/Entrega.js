@@ -29,6 +29,12 @@ const Entrega = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    // Comentario que el propio estudiante escribe al entregar (IU-30).
+    // Distinto de "comentario", que es la retroalimentacion del docente.
+    comentarioEstudiante: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     fechaEntrega: {
       type: DataTypes.DATE,
       allowNull: false,

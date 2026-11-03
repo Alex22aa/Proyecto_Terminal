@@ -20,7 +20,7 @@ async function obtenerTareaConCurso(tareaId) {
 
 async function crearEntrega(req, res) {
   try {
-    const { tareaId, archivoUrl } = req.body;
+    const { tareaId, archivoUrl, comentarioEstudiante } = req.body;
     if (!tareaId) {
       return res.status(400).json({ error: 'Falta el id de la tarea.' });
     }
@@ -47,6 +47,7 @@ async function crearEntrega(req, res) {
       tareaId,
       estudianteId,
       archivoUrl,
+      comentarioEstudiante,
       estado: 'entregada',
     });
 
@@ -69,7 +70,7 @@ async function crearEntrega(req, res) {
 async function actualizarEntrega(req, res) {
   try {
     const { id } = req.params;
-    const { archivoUrl } = req.body;
+    const { archivoUrl, comentarioEstudiante } = req.body;
 
     const entrega = await Entrega.findOne({ where: { id } });
     if (!entrega || entrega.estudianteId !== req.usuario.id) {
@@ -79,7 +80,7 @@ async function actualizarEntrega(req, res) {
       return res.status(400).json({ error: 'Esta entrega ya fue calificada y no se puede modificar.' });
     }
 
-    await entrega.update({ archivoUrl, estado: 'entregada' });
+    await entrega.update({ archivoUrl, comentarioEstudiante, estado: 'entregada' });
     return res.json(entrega);
   } catch (error) {
     return res.status(500).json({ error: error.message });
