@@ -14,6 +14,7 @@ import FormularioRubrica from './pages/FormularioRubrica';
 import ListaEntregas from './pages/ListaEntregas';
 import DetalleEntrega from './pages/DetalleEntrega';
 import NotificacionesDocente from './pages/NotificacionesDocente';
+import NotificacionesEstudiante from './pages/NotificacionesEstudiante';
 import MisCursos from './pages/MisCursos';
 import DetalleCursoEstudiante from './pages/DetalleCursoEstudiante';
 import DetalleTareaEstudiante from './pages/DetalleTareaEstudiante';
@@ -240,9 +241,7 @@ function App() {
         path="/notificaciones-estudiante"
         element={
           <RutaProtegida rolRequerido="estudiante">
-            <PanelLayout rol="estudiante">
-              <EnConstruccion titulo="Notificaciones" />
-            </PanelLayout>
+            <NotificacionesEstudiante />
           </RutaProtegida>
         }
       />
