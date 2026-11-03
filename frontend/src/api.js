@@ -332,3 +332,19 @@ export async function actualizarEntrega(token, id, datos) {
   }
   return respuesta.json();
 }
+
+export async function calificarEntrega(token, id, datos) {
+  const respuesta = await fetch(`${API_URL}/entregas/${id}/calificar`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(datos),
+  });
+  if (!respuesta.ok) {
+    const error = await respuesta.json().catch(() => ({}));
+    throw new Error(error.error || 'No se pudo calificar la entrega');
+  }
+  return respuesta.json();
+}
