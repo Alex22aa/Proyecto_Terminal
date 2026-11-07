@@ -7,7 +7,7 @@ const { Usuario } = require('../models');
 
 async function registrar(req, res) {
   try {
-    const { nombreCompleto, correoInstitucional, contrasena, rol } = req.body;
+    const { nombreCompleto, correoInstitucional, contrasena, rol, matricula } = req.body;
 
     if (!nombreCompleto || !correoInstitucional || !contrasena || !rol) {
       return res.status(400).json({ error: 'Faltan datos obligatorios.' });
@@ -15,11 +15,16 @@ async function registrar(req, res) {
 
     const contrasenaHash = await bcrypt.hash(contrasena, 10);
 
+    // Matricula es opcional y solo aplica a estudiantes (decision de Alejandro,
+    // 06-07/11/2026, para que IU-15 la pueda mostrar sin captura manual en la
+    // base de datos). Esto se desvia del bosquejo aprobado de IU-31, que no
+    // pedia este campo.
     const usuario = await Usuario.create({
       nombreCompleto,
       correoInstitucional,
       contrasenaHash,
       rol,
+      matricula: rol === 'estudiante' ? matricula || null : null,
     });
 
     return res.status(201).json({
@@ -27,6 +32,7 @@ async function registrar(req, res) {
       nombreCompleto: usuario.nombreCompleto,
       correoInstitucional: usuario.correoInstitucional,
       rol: usuario.rol,
+      matricula: usuario.matricula,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });

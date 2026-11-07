@@ -1,7 +1,4 @@
 // Guarda y lee la sesión del usuario (token, nombre y rol) en el navegador.
-// Se usa sessionStorage (no localStorage) para que cada pestaña tenga su
-// propia sesión independiente, en vez de compartirla entre todas las
-// pestañas del navegador. La sesión se pierde al cerrar la pestaña.
 
 const CLAVE_SESION = 'sesionUsuario';
 

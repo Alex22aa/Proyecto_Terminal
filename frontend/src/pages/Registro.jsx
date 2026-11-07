@@ -4,6 +4,11 @@ import { registrarUsuario } from '../api';
 import './Auth.css';
 
 // Pantalla IU-31: registro de un usuario nuevo (estudiante o docente).
+//
+// El campo Matricula no esta en el bosquejo aprobado de esta pantalla; se
+// agrego por decision explicita de Alejandro (06-07/11/2026) para que IU-15
+// (Detalle de estudiante) pueda mostrarla sin tener que capturarla a mano en
+// la base de datos. Solo aplica a estudiantes y es opcional.
 function Registro() {
   const navigate = useNavigate();
   const [nombreCompleto, setNombreCompleto] = useState('');
@@ -11,6 +16,7 @@ function Registro() {
   const [contrasena, setContrasena] = useState('');
   const [confirmarContrasena, setConfirmarContrasena] = useState('');
   const [rol, setRol] = useState('estudiante');
+  const [matricula, setMatricula] = useState('');
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
 
@@ -23,7 +29,7 @@ function Registro() {
     }
     setCargando(true);
     try {
-      await registrarUsuario({ nombreCompleto, correoInstitucional, contrasena, rol });
+      await registrarUsuario({ nombreCompleto, correoInstitucional, contrasena, rol, matricula });
       navigate('/login');
     } catch (err) {
       setError(err.message);
@@ -76,6 +82,12 @@ function Registro() {
             <option value="estudiante">Estudiante</option>
           </select>
         </label>
+        {rol === 'estudiante' && (
+          <label>
+            Matrícula (opcional):
+            <input value={matricula} onChange={(e) => setMatricula(e.target.value)} />
+          </label>
+        )}
         {error && <p className="auth-error">{error}</p>}
         <button type="submit" className="auth-boton-principal" disabled={cargando}>
           {cargando ? 'Registrando...' : 'Registrar usuario'}

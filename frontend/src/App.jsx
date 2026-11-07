@@ -19,6 +19,11 @@ import MisCursos from './pages/MisCursos';
 import DetalleCursoEstudiante from './pages/DetalleCursoEstudiante';
 import DetalleTareaEstudiante from './pages/DetalleTareaEstudiante';
 import EntregaTarea from './pages/EntregaTarea';
+import DashboardEstudiante from './pages/DashboardEstudiante';
+import DashboardDocente from './pages/DashboardDocente';
+import DetalleEstudiante from './pages/DetalleEstudiante';
+import Retroalimentacion from './pages/Retroalimentacion';
+import ReporteAcademico from './pages/ReporteAcademico';
 import EnConstruccion from './pages/EnConstruccion';
 import PanelLayout from './components/PanelLayout';
 import { obtenerSesion } from './utils/sesion';
@@ -152,9 +157,23 @@ function App() {
         path="/dashboard-docente"
         element={
           <RutaProtegida rolRequerido="docente">
-            <PanelLayout rol="docente">
-              <EnConstruccion titulo="Dashboard docente" />
-            </PanelLayout>
+            <DashboardDocente />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/dashboard-docente/:cursoId/estudiante/:estudianteId"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <DetalleEstudiante />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/reporte-academico"
+        element={
+          <RutaProtegida rolRequerido="docente">
+            <ReporteAcademico />
           </RutaProtegida>
         }
       />
@@ -228,12 +247,18 @@ function App() {
         }
       />
       <Route
+        path="/mis-cursos/:cursoId/tareas/:tareaId/retroalimentacion"
+        element={
+          <RutaProtegida rolRequerido="estudiante">
+            <Retroalimentacion />
+          </RutaProtegida>
+        }
+      />
+      <Route
         path="/dashboard-estudiante"
         element={
           <RutaProtegida rolRequerido="estudiante">
-            <PanelLayout rol="estudiante">
-              <EnConstruccion titulo="Dashboard estudiante" />
-            </PanelLayout>
+            <DashboardEstudiante />
           </RutaProtegida>
         }
       />

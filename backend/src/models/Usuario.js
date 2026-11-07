@@ -30,6 +30,13 @@ const Usuario = sequelize.define(
       type: DataTypes.ENUM('estudiante', 'docente', 'administrador'),
       allowNull: false,
     },
+    // Matricula del estudiante (IU-15). El bosquejo de registro (IU-31) no la
+    // pide, asi que no se captura ahi; queda nula hasta que se registre a
+    // mano (por ejemplo desde pgAdmin) para las cuentas que la necesiten.
+    matricula: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+    },
   },
   {
     tableName: 'usuarios',

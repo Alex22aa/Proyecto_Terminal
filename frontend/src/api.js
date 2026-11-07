@@ -70,6 +70,16 @@ export async function editarCurso(token, id, datos) {
   return respuesta.json();
 }
 
+export async function obtenerInscripcionesDelCurso(token, cursoId) {
+  const respuesta = await fetch(`${API_URL}/inscripciones/curso/${cursoId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!respuesta.ok) {
+    throw new Error('No se pudieron obtener los estudiantes inscritos');
+  }
+  return respuesta.json();
+}
+
 export async function archivarCurso(token, id) {
   const respuesta = await fetch(`${API_URL}/cursos/${id}/archivar`, {
     method: 'PATCH',

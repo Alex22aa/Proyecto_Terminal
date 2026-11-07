@@ -45,9 +45,12 @@ async function listarInscripcionesDelCurso(req, res) {
       return res.status(404).json({ error: 'Curso no encontrado o no pertenece a este docente.' });
     }
 
+    // Se incluye matricula porque IU-15 (Detalle de estudiante) la necesita.
     const inscripciones = await Inscripcion.findAll({
       where: { cursoId },
-      include: [{ association: 'estudiante', attributes: ['id', 'nombreCompleto', 'correoInstitucional'] }],
+      include: [
+        { association: 'estudiante', attributes: ['id', 'nombreCompleto', 'correoInstitucional', 'matricula'] },
+      ],
     });
     return res.json(inscripciones);
   } catch (error) {

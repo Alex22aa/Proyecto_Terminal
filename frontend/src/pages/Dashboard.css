@@ -1,0 +1,135 @@
+/* Estilos para los dashboards de estudiante (IU-23) y docente (IU-14). */
+
+.dashboard-filtros {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.dashboard-filtro-curso {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.dashboard-filtro-curso select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+}
+
+.dashboard-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+
+.dashboard-tarjeta {
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #fff7ed;
+}
+
+.dashboard-numero {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #9a3412;
+}
+
+.dashboard-etiqueta {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #374151;
+}
+
+.dashboard-fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dashboard-panel {
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+}
+
+.dashboard-panel h2 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: #9a3412;
+}
+
+.dashboard-barra-fila {
+  margin-bottom: 12px;
+}
+
+.dashboard-barra-etiquetas {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.dashboard-barra-track {
+  height: 10px;
+  border-radius: 5px;
+  background: #fff7ed;
+  overflow: hidden;
+}
+
+.dashboard-barra-relleno {
+  height: 100%;
+  border-radius: 5px;
+  background: #ea580c;
+}
+
+.dashboard-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  color: #374151;
+}
+
+.dashboard-lista li {
+  padding: 6px 0;
+  border-bottom: 1px solid #fff7ed;
+}
+
+.dashboard-lista li:last-child {
+  border-bottom: none;
+}
+
+.dashboard-vacio {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Impresion del Reporte academico (IU-16): "Exportar reporte" usa
+   window.print() en vez de una libreria de PDF, asi que al imprimir se
+   oculta el menu lateral, la barra superior y los botones de la pantalla,
+   dejando solo el contenido del reporte. */
+@media print {
+  .barra-superior,
+  .menu-lateral,
+  .reporte-no-imprimir {
+    display: none !important;
+  }
+
+  .panel-contenido {
+    padding: 0 !important;
+  }
+}

@@ -5,6 +5,7 @@ import {
   obtenerTareasDelCurso,
   obtenerEntregasDeTarea,
   obtenerRubricaDeTarea,
+  obtenerCriteriosDeRubrica,
   calificarEntrega,
 } from '../api';
 import { obtenerSesion } from '../utils/sesion';
@@ -13,13 +14,23 @@ import './Cursos.css';
 // Pantalla IU-12: detalle de una entrega (vista del docente).
 // No hay una IU aparte para calificar en los 33 bosquejos, asi que el
 // formulario de calificacion vive aqui mismo, dentro del detalle.
+//
+// Si la tarea tiene rubrica con criterios (IU-10), calificar se hace
+// criterio por criterio y el puntaje final se suma solo; si no tiene
+// rubrica, se mantiene el campo de puntaje unico de siempre. Decision de
+// Alejandro (07/11/2026): solo se guarda el total en la entrega, no el
+// desglose por criterio (para no agregar una columna nueva fuera del
+// diccionario de datos aprobado), asi que al reabrir una entrega ya
+// calificada hay que volver a capturar los criterios si se quiere ajustar.
 function DetalleEntrega() {
   const { cursoId, tareaId, entregaId } = useParams();
   const navigate = useNavigate();
   const sesion = obtenerSesion();
   const [tarea, setTarea] = useState(null);
   const [entrega, setEntrega] = useState(null);
-  const [tieneRubrica, setTieneRubrica] = useState(false);
+  const [rubrica, setRubrica] = useState(null);
+  const [criterios, setCriterios] = useState([]);
+  const [puntajesCriterios, setPuntajesCriterios] = useState({});
   const [cargando, setCargando] = useState(true);
   const [puntajeObtenido, setPuntajeObtenido] = useState('');
   const [comentario, setComentario] = useState('');
@@ -33,7 +44,7 @@ function DetalleEntrega() {
 
   async function cargar() {
     setCargando(true);
-    const [tareas, entregas, rubrica] = await Promise.all([
+    const [tareas, entregas, rubricaEncontrada] = await Promise.all([
       obtenerTareasDelCurso(sesion?.token, cursoId),
       obtenerEntregasDeTarea(sesion?.token, tareaId),
       obtenerRubricaDeTarea(sesion?.token, tareaId).catch(() => null),
@@ -42,12 +53,30 @@ function DetalleEntrega() {
     const entregaEncontrada = entregas.find((e) => String(e.id) === entregaId);
     setTarea(tareaEncontrada);
     setEntrega(entregaEncontrada);
-    setTieneRubrica(Boolean(rubrica));
+    setRubrica(rubricaEncontrada);
+
+    const listaCriterios = rubricaEncontrada
+      ? await obtenerCriteriosDeRubrica(sesion?.token, rubricaEncontrada.id).catch(() => [])
+      : [];
+    setCriterios(listaCriterios);
+    setPuntajesCriterios({});
+
     if (entregaEncontrada) {
       setPuntajeObtenido(entregaEncontrada.puntajeObtenido ?? '');
       setComentario(entregaEncontrada.comentario ?? '');
     }
     setCargando(false);
+  }
+
+  // Si hay criterios, el puntaje se califica por criterio y se suma solo.
+  const usaRubrica = criterios.length > 0;
+  const sumaCriterios = criterios.reduce(
+    (suma, c) => suma + (Number(puntajesCriterios[c.id]) || 0),
+    0
+  );
+
+  function actualizarPuntajeCriterio(criterioId, valor) {
+    setPuntajesCriterios((anterior) => ({ ...anterior, [criterioId]: valor }));
   }
 
   function nombreEstado(estado) {
@@ -62,7 +91,7 @@ function DetalleEntrega() {
     setGuardando(true);
     try {
       const entregaActualizada = await calificarEntrega(sesion?.token, entrega.id, {
-        puntajeObtenido: Number(puntajeObtenido),
+        puntajeObtenido: usaRubrica ? sumaCriterios : Number(puntajeObtenido),
         comentario,
       });
       setEntrega(entregaActualizada);
@@ -115,7 +144,7 @@ function DetalleEntrega() {
           <strong>Calificación actual:</strong> {entrega.puntajeObtenido ?? 'Pendiente'} / {tarea?.puntajeMaximo}
         </p>
         <p>
-          <strong>Rúbrica:</strong> {tieneRubrica ? 'Definida' : 'No definida'}
+          <strong>Rúbrica:</strong> {rubrica ? `Definida (${rubrica.titulo})` : 'No definida'}
         </p>
         <p>
           <strong>Retroalimentación del docente:</strong> {entrega.comentario || 'Sin comentarios todavía.'}
@@ -124,18 +153,50 @@ function DetalleEntrega() {
 
       <h2 className="cursos-subtitulo">Calificar entrega</h2>
       <form className="cursos-formulario" onSubmit={manejarCalificar}>
-        <label>
-          Puntaje obtenido (máximo {tarea?.puntajeMaximo})
-          <input
-            type="number"
-            min="0"
-            max={tarea?.puntajeMaximo}
-            step="0.01"
-            value={puntajeObtenido}
-            onChange={(e) => setPuntajeObtenido(e.target.value)}
-            required
-          />
-        </label>
+        {usaRubrica ? (
+          <>
+            {entrega.estado === 'calificada' && (
+              <p className="cursos-subtitulo">
+                Vuelve a capturar el puntaje de cada criterio para actualizar la calificación.
+              </p>
+            )}
+            {criterios.map((criterio) => (
+              <label key={criterio.id}>
+                {criterio.nombre} (máximo {criterio.puntajeMaximo})
+                {criterio.descripcion && (
+                  <span className="cursos-subtitulo" style={{ display: 'block', margin: '2px 0' }}>
+                    {criterio.descripcion}
+                  </span>
+                )}
+                <input
+                  type="number"
+                  min="0"
+                  max={criterio.puntajeMaximo}
+                  step="0.01"
+                  value={puntajesCriterios[criterio.id] ?? ''}
+                  onChange={(e) => actualizarPuntajeCriterio(criterio.id, e.target.value)}
+                  required
+                />
+              </label>
+            ))}
+            <p>
+              <strong>Puntaje total:</strong> {sumaCriterios.toFixed(1)} / {rubrica.puntajeTotal}
+            </p>
+          </>
+        ) : (
+          <label>
+            Puntaje obtenido (máximo {tarea?.puntajeMaximo})
+            <input
+              type="number"
+              min="0"
+              max={tarea?.puntajeMaximo}
+              step="0.01"
+              value={puntajeObtenido}
+              onChange={(e) => setPuntajeObtenido(e.target.value)}
+              required
+            />
+          </label>
+        )}
         <label>
           Retroalimentación
           <textarea
