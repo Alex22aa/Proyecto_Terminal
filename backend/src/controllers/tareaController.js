@@ -6,8 +6,12 @@
 // - Consultar: el docente dueno, el estudiante inscrito (activo) en el curso,
 //   o el administrador (siempre).
 // - Editar/Desactivar: el docente dueno del curso, o el administrador.
+//
+// Tambien dispara una notificacion (IU-29/IU-33) a cada estudiante inscrito
+// cuando se crea una tarea nueva. Si falla no se cae la peticion principal,
+// solo se registra el error (mismo patron que entregaController.js).
 
-const { Tarea, Curso, Inscripcion } = require('../models');
+const { Tarea, Curso, Inscripcion, Notificacion } = require('../models');
 
 // Verifica si quien pregunta tiene derecho a ver las tareas de este curso:
 // el administrador siempre; el docente si es el dueno; el estudiante si tiene
@@ -44,6 +48,22 @@ async function crearTarea(req, res) {
     if (puntajeMaximo !== undefined) datos.puntajeMaximo = puntajeMaximo;
 
     const tarea = await Tarea.create(datos);
+
+    try {
+      const inscritos = await Inscripcion.findAll({ where: { cursoId, activa: true } });
+      await Promise.all(
+        inscritos.map((inscripcion) =>
+          Notificacion.create({
+            usuarioId: inscripcion.estudianteId,
+            mensaje: `Nueva tarea: ${tarea.titulo}`,
+            tipo: 'tarea',
+          })
+        )
+      );
+    } catch (errorNotificacion) {
+      console.error('No se pudo crear la notificacion de tarea nueva:', errorNotificacion.message);
+    }
+
     return res.status(201).json(tarea);
   } catch (error) {
     return res.status(500).json({ error: error.message });
