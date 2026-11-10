@@ -28,6 +28,33 @@ export async function registrarUsuario(datos) {
   return respuesta.json();
 }
 
+// IU-32: pide el enlace de recuperacion (sin servicio de correo real, ver
+// authController.js) y despues lo usa junto con la contrasena nueva.
+export async function solicitarRecuperacion(correoInstitucional) {
+  const respuesta = await fetch(`${API_URL}/auth/recuperar`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ correoInstitucional }),
+  });
+  if (!respuesta.ok) {
+    throw new Error('No se pudo solicitar la recuperacion');
+  }
+  return respuesta.json();
+}
+
+export async function restablecerContrasena(tokenRecuperacion, nuevaContrasena) {
+  const respuesta = await fetch(`${API_URL}/auth/restablecer`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tokenRecuperacion, nuevaContrasena }),
+  });
+  if (!respuesta.ok) {
+    const error = await respuesta.json().catch(() => ({}));
+    throw new Error(error.error || 'No se pudo restablecer la contrasena');
+  }
+  return respuesta.json();
+}
+
 export async function obtenerCursos(token) {
   const respuesta = await fetch(`${API_URL}/cursos`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -91,6 +118,44 @@ export async function archivarCurso(token, id) {
   return respuesta.json();
 }
 
+// Materiales de apoyo del curso (RF-08). No tienen IU propia en los 33
+// bosquejos; se consumen desde una seccion chica dentro de Detalle de curso.
+export async function obtenerMaterialesDelCurso(token, cursoId) {
+  const respuesta = await fetch(`${API_URL}/materiales/curso/${cursoId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!respuesta.ok) {
+    throw new Error('No se pudieron obtener los materiales');
+  }
+  return respuesta.json();
+}
+
+export async function crearMaterial(token, datos) {
+  const respuesta = await fetch(`${API_URL}/materiales`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(datos),
+  });
+  if (!respuesta.ok) {
+    const error = await respuesta.json().catch(() => ({}));
+    throw new Error(error.error || 'No se pudo agregar el material');
+  }
+  return respuesta.json();
+}
+
+export async function eliminarMaterial(token, id) {
+  const respuesta = await fetch(`${API_URL}/materiales/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!respuesta.ok) {
+    throw new Error('No se pudo eliminar el material');
+  }
+}
+
 export async function obtenerTareasDelCurso(token, cursoId) {
   const respuesta = await fetch(`${API_URL}/tareas/curso/${cursoId}`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -141,7 +206,6 @@ export async function desactivarTarea(token, id) {
   if (!respuesta.ok) {
     throw new Error('No se pudo desactivar la tarea');
   }
-  return respuesta.json();
 }
 
 export async function obtenerEntregasDeTarea(token, tareaId) {

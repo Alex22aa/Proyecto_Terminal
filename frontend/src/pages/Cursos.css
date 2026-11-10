@@ -70,6 +70,7 @@
 }
 
 .cursos-formulario input,
+.cursos-formulario select,
 .cursos-formulario textarea {
   padding: 8px 10px;
   border-radius: 6px;
@@ -145,4 +146,31 @@
   border: 1px solid #fed7aa;
   color: #9a3412;
   font-size: 12px;
+}
+
+/* Materiales del curso (RF-08), sin IU propia en los bosquejos: seccion
+   chica dentro de Detalle de curso (docente y estudiante). */
+.materiales-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 12px 0 20px;
+}
+
+.material-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #fff;
+}
+
+.material-item a {
+  font-size: 13px;
+  color: #ea580c;
+  display: inline-block;
+  margin-top: 4px;
 }

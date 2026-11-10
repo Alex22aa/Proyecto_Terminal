@@ -1,17 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PanelLayout from '../components/PanelLayout';
-import { obtenerMisCursos, obtenerTareasDelCurso, obtenerMiEntrega } from '../api';
+import {
+  obtenerMisCursos,
+  obtenerTareasDelCurso,
+  obtenerMiEntrega,
+  obtenerMaterialesDelCurso,
+} from '../api';
 import { obtenerSesion } from '../utils/sesion';
 import './Cursos.css';
 
 // Pantalla IU-24: detalle de un curso desde la perspectiva del estudiante.
+// Incluye los materiales del curso (RF-08) en modo solo lectura (ver
+// DetalleCurso.jsx para la version del docente, con agregar/eliminar).
 function DetalleCursoEstudiante() {
   const { cursoId } = useParams();
   const navigate = useNavigate();
   const sesion = obtenerSesion();
   const [curso, setCurso] = useState(null);
   const [filas, setFilas] = useState([]);
+  const [materiales, setMateriales] = useState([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -37,6 +45,10 @@ function DetalleCursoEstudiante() {
       entrega: entregas[indice],
     }));
     setFilas(filasTareas);
+
+    const listaMateriales = await obtenerMaterialesDelCurso(sesion?.token, cursoId).catch(() => []);
+    setMateriales(listaMateriales);
+
     setCargando(false);
   }
 
@@ -91,6 +103,27 @@ function DetalleCursoEstudiante() {
         <p><strong>Estado:</strong> {nombreEstado(curso.estado)}</p>
         <p><strong>Descripción:</strong> {curso.descripcion}</p>
       </div>
+
+      <h2 className="cursos-subtitulo">Materiales del curso</h2>
+      {materiales.length === 0 && <p>Este curso todavía no tiene materiales.</p>}
+      {materiales.length > 0 && (
+        <div className="materiales-lista">
+          {materiales.map((material) => (
+            <div className="material-item" key={material.id}>
+              <div>
+                <strong>{material.titulo}</strong>{' '}
+                <span className="cursos-subtitulo">({material.tipo})</span>
+                {material.descripcion && (
+                  <p className="cursos-subtitulo">{material.descripcion}</p>
+                )}
+                <a href={material.url} target="_blank" rel="noreferrer">
+                  Abrir material
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {filas.length > 0 && (
         <table className="entregas-tabla">

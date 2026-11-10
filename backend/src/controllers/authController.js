@@ -14,11 +14,6 @@ async function registrar(req, res) {
     }
 
     const contrasenaHash = await bcrypt.hash(contrasena, 10);
-
-    // Matricula es opcional y solo aplica a estudiantes (decision de Alejandro,
-    // 06-07/11/2026, para que IU-15 la pueda mostrar sin captura manual en la
-    // base de datos). Esto se desvia del bosquejo aprobado de IU-31, que no
-    // pedia este campo.
     const usuario = await Usuario.create({
       nombreCompleto,
       correoInstitucional,
@@ -65,4 +60,66 @@ async function iniciarSesion(req, res) {
   }
 }
 
-module.exports = { registrar, iniciarSesion };
+// IU-32: pide la recuperacion de contrasena. El proyecto no tiene servicio de
+// correo configurado (eso es trabajo aparte, fuera del alcance de PT2), asi
+// que en vez de mandar un correo real se regresa el enlace de recuperacion
+// directo en la respuesta, para que el frontend lo muestre en pantalla.
+async function solicitarRecuperacion(req, res) {
+  try {
+    const { correoInstitucional } = req.body;
+    if (!correoInstitucional) {
+      return res.status(400).json({ error: 'Falta el correo institucional.' });
+    }
+
+    const usuario = await Usuario.findOne({ where: { correoInstitucional } });
+    // Mismo mensaje exista o no la cuenta, para no revelar que correos estan registrados.
+    const mensaje = 'Si la cuenta existe, se generaron instrucciones de recuperacion.';
+    if (!usuario) {
+      return res.json({ mensaje });
+    }
+
+    const tokenRecuperacion = jwt.sign(
+      { id: usuario.id, proposito: 'recuperacion' },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    return res.json({ mensaje, tokenRecuperacion });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+// IU-32: usa el enlace de recuperacion para poner una contrasena nueva.
+async function restablecerContrasena(req, res) {
+  try {
+    const { tokenRecuperacion, nuevaContrasena } = req.body;
+    if (!tokenRecuperacion || !nuevaContrasena) {
+      return res.status(400).json({ error: 'Faltan datos obligatorios.' });
+    }
+
+    let payload;
+    try {
+      payload = jwt.verify(tokenRecuperacion, process.env.JWT_SECRET);
+    } catch (error) {
+      return res.status(400).json({ error: 'El enlace de recuperacion es invalido o ya vencio.' });
+    }
+    if (payload.proposito !== 'recuperacion') {
+      return res.status(400).json({ error: 'El enlace de recuperacion es invalido.' });
+    }
+
+    const usuario = await Usuario.findOne({ where: { id: payload.id } });
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado.' });
+    }
+
+    const contrasenaHash = await bcrypt.hash(nuevaContrasena, 10);
+    await usuario.update({ contrasenaHash });
+
+    return res.json({ mensaje: 'Contrasena actualizada correctamente.' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+module.exports = { registrar, iniciarSesion, solicitarRecuperacion, restablecerContrasena };
