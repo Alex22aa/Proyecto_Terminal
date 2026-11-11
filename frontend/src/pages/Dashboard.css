@@ -118,6 +118,24 @@
   font-size: 13px;
 }
 
+/* Tarjetas de alerta para los paneles (IU-02 docente, IU-03 estudiante):
+   lista corta de pendientes/alertas recientes, reutilizando el mismo
+   contenedor .dashboard-panel. */
+.panel-alertas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-alerta {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  font-size: 13px;
+}
+
 /* Impresion del Reporte academico (IU-16): "Exportar reporte" usa
    window.print() en vez de una libreria de PDF, asi que al imprimir se
    oculta el menu lateral, la barra superior y los botones de la pantalla,
